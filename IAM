@@ -1,0 +1,77 @@
+# IAM — Identity & Access Management — Notes
+
+> Source: Lecture transcript (IAM: Users, Groups, Policies & hands‑on)
+
+---
+
+## 1. Overview
+
+* **IAM** = *Identity and Access Management* (AWS service).
+* **Global service**: IAM resources (users, groups, policies) are not region‑scoped — they apply across the AWS account.
+* Purpose: securely manage **who** can access AWS resources and **what** they can do.
+
+## 2. Root user vs IAM users
+
+* When you create an AWS account you get a **root user** (account owner).
+* **Root user**: only use it for initial account setup. Do **not** use or share it for daily operations.
+* Create **IAM users** for people (one user = one person or identity) and assign minimal permissions.
+
+## 3. Users, Groups, and Policies
+
+* **User**: identity for a person or service that needs access.
+* **Group**: a collection of users. Groups can only contain users (groups cannot nest groups).
+
+  * Users can belong to **multiple groups**.
+* **Policy**: a JSON document that defines permissions (what actions are allowed or denied on which resources).
+
+  * Attach policies to users or groups.
+  * Policies are readable and declarative — they state allowed/denied actions (e.g., `ec2:DescribeInstances`).
+
+## 4. Principle of Least Privilege
+
+* Grant **only** the permissions users need to perform their job.
+* Avoid giving broad permissions (e.g., Administrator) unless necessary.
+
+## 5. Example structure (from transcript)
+
+* Organization users: Alice, Bob, Charles, David, Edward, Fred.
+* Groups: `developers` (Alice, Bob, Charles), `operations` (David, Edward).
+* A user may be in multiple groups (e.g., Charles and David also in `audit`), inheriting all group permissions.
+
+## 6. Hands‑on: creating users & groups (summary of console steps)
+
+1. Open **IAM** via the AWS console search (note: the console shows `Global` — no region selector).
+2. Create an **IAM user** (e.g., `Stefan`). Choose to allow **AWS Management Console** access and set a password.
+
+   * Option: use AWS Identity Center (not covered for exam here); select IAM user for simplicity.
+   * For other people, leave auto‑generated password and require password reset at first sign‑in.
+3. Create a **group** (e.g., `admins`) and attach a policy (e.g., `AdministratorAccess`).
+4. Add the user to the group so the user inherits group permissions.
+5. (Optional) Add **tags** to the user (metadata such as `Department: Engineering`). Tags are optional but useful for resource organization.
+6. After creation, you can **download CSV** with sign‑in details or email instructions to the user.
+
+## 7. Sign‑in tips
+
+* IAM sign‑in uses **account ID or account alias** + IAM username and password.
+* You can create an **account alias** (custom sign‑in URL) to simplify login (e.g., `https://stefan-v3.signin.aws.amazon.com/console`).
+* To work simultaneously with **root** and an **IAM user**, use separate browser windows or a private/incognito window to avoid being signed out.
+
+## 8. Best practices highlighted
+
+* **Avoid using root** for routine tasks; create and use IAM admin users instead.
+* **Do not lose** root or admin credentials (support is difficult if lost).
+* Keep both root and IAM windows handy during labs if the instructor asks to switch accounts.
+
+## 9. Key exam & practical takeaways
+
+* IAM is **global** (no region selector).
+* **Groups** simplify permission management — attach policies to groups, not individuals when possible.
+* Use the **least privilege** principle for security and cost control.
+* Understand how to create users, groups, attach policies, set console access, and manage sign‑in aliases.
+
+---
+
+*Study tips:*
+
+* Practice creating an IAM user, a group, attaching a policy, and logging in with that user.
+* Review common managed policies (e.g., `AdministratorAccess`, `AmazonS3ReadOnlyAccess`) and how policy statements are structured (Action, Resource, Effect).
